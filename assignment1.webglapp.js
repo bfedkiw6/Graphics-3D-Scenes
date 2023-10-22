@@ -215,8 +215,8 @@ class WebGlApp
 
             let deltaAngleX = (2 * Math.PI / canvas.width) 
             let deltaAngleY = (Math.PI / canvas.height);
-            let xAngle = (-1 * Input.getMouseDx()) * deltaAngleX;
-            let yAngle = Input.getMouseDy() * deltaAngleY;
+            let xAngle = (-1 * Input.getMouseDx()) * deltaAngleX * delta_time * 25
+            let yAngle = Input.getMouseDy() * deltaAngleY * delta_time * 25
 
             // Rotating along up axis
             vec3.rotateY(this.eye, this.eye, this.center, xAngle)
@@ -321,8 +321,8 @@ class WebGlApp
 
             let deltaAngleX = (2 * Math.PI / canvas.width) 
             let deltaAngleY = (Math.PI / canvas.height);
-            let xAngle = Input.getMouseDx() * deltaAngleX;
-            let yAngle = Input.getMouseDy() * deltaAngleY;
+            let xAngle = Input.getMouseDx() * deltaAngleX * delta_time * 25
+            let yAngle = Input.getMouseDy() * deltaAngleY * delta_time * 25
 
             let mat_1 = mat4.fromRotation(mat4.create(), xAngle, this.up)
             let mat_2 = mat4.fromRotation(mat4.create(), yAngle, this.right)
@@ -376,9 +376,6 @@ class WebGlApp
             // TODO: Make any modifications or adaptions to the world matrix here and create any other needed variables
 
             // TODO: Apply the transformations (rotate, scale, translate) and any helper transformations in the correct order to 'transformation'
-
-            // Find P and P attributes
-
             let L_invert = mat4.invert(mat4.create(), transformation)
             let P = mat4.multiply(mat4.create(), world_transformation, L_invert)
             let P_invert = mat4.invert(mat4.create(), P)
@@ -389,14 +386,14 @@ class WebGlApp
             // Rotation --> P^-1 * R * P * L
             mat4.multiply(transformation, P, transformation)
             // Translate to origin
-            let world_translation = mat4.getTranslation(mat4.create(), world_transformation)
-            let world_trans = mat4.fromTranslation(mat4.create(), world_translation)
-            let invert_world_trans = mat4.invert(mat4.create(), world_trans)
-            mat4.multiply(transformation, invert_world_trans, transformation)
+            let local_translation = mat4.getTranslation(mat4.create(), transformation)
+            let local_trans = mat4.fromTranslation(mat4.create(), local_translation)
+            let invert_local_trans = mat4.invert(mat4.create(), local_trans)
+            mat4.multiply(transformation, invert_local_trans, transformation)
             // Rotate
             mat4.multiply(transformation, rotation, transformation)
             // Translate back
-            mat4.multiply(transformation, world_trans, transformation)
+            mat4.multiply(transformation, local_trans, transformation)
 
             // Translation --> P^-1 * T * P * L
             mat4.multiply(transformation, translation, transformation)
