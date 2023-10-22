@@ -340,8 +340,8 @@ class WebGlApp
             // TODO: Create a translation matrix that translates the node along the view-aligned axes
             // TODO: Use Input.getMouseDx(), Input.getMouseDy(), and delta_time to determine the amount of change
             // TODO: Store the matrix in variable 'translation'
-            let x = Input.getMouseDx() * delta_time
-            let y = -1 * Input.getMouseDy() * delta_time
+            let x = Input.getMouseDx() * delta_time * 0.1
+            let y = -1 * Input.getMouseDy() * delta_time * 0.1
             
             let vec_1 = vec3.scale(mat4.create(), this.up, y)
             let vec_2 = vec3.scale(mat4.create(), this.right, x)
