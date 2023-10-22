@@ -201,12 +201,18 @@ class SceneNode {
      */
     calculateWorldTransformation() {
 
-        throw '"SceneNode.calculateWorldTransformation" not implemented'
+        //throw '"SceneNode.calculateWorldTransformation" not implemented'
         let world = null
 
         // TODO: Get this node's transformation hierarchy using 'getTransformationHierarchy'
         // TODO: Create the compound world transformation from the hierarchy of transformations
 
+        let transforms = []
+        world = mat4.create()
+        transforms = this.getTransformationHierarchy(transforms)
+        for (var i = 0; i < transforms.length; i++) {
+            world = mat4.multiply(mat4.create(), transforms[i], world)
+        }
         return world
     }
 
