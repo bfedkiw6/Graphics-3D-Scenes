@@ -181,16 +181,7 @@ class OBJLoader {
 
         // TODO: Triangulate the face indices
         let new_face = []
-
-        // First Triangle
-        new_face.push(face[0])
-        new_face.push(face[1])
-        new_face.push(face[2])
-
-        // Second Triangle
-        new_face.push(face[0])
-        new_face.push(face[2])
-        new_face.push(face[3])
+        new_face.push(face[0], face[1], face[2], face[0], face[2], face[3])
 
         return new_face
     }

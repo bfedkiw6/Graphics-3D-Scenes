@@ -211,7 +211,7 @@ class SceneNode {
         world = mat4.create()
         transforms = this.getTransformationHierarchy(transforms)
         for (var i = 0; i < transforms.length; i++) {
-            world = mat4.multiply(mat4.create(), transforms[i], world)
+            mat4.multiply(world, transforms[i], world)
         }
         return world
     }
